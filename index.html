@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Pro Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f4f4f8, #eaeaff);
+      color: #333;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    nav.navbar {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav.navbar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    nav.navbar a:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    #searchBar {
+      margin-top: 15px;
+      padding: 8px 16px;
+      width: 60%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #333;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .wrapper {
+      padding: 40px 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 600px;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 12px;
+      margin-bottom: 40px;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      width: 600px;
+      flex-shrink: 0;
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      font-size: 1.5rem;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .btn.prev {
+      left: 10px;
+    }
+
+    .btn.next {
+      right: 10px;
+    }
+
+    .content-right {
+      text-align: center;
+      max-width: 700px;
+    }
+
+    .posts {
+      padding: 40px 10%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .post {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .post img.post-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .like-btn {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .comment-section {
+      margin-top: 15px;
+    }
+
+    .comment-section input[type="text"] {
+      padding: 6px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-right: 5px;
+    }
+
+    .comment-section button {
+      padding: 6px 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #eee;
+      margin-top: 40px;
+    }
+
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+
+    body.dark header {
+      background-color: rgba(20, 20, 20, 0.85);
+    }
+
+    body.dark nav.navbar a {
+      color: #ccc;
+    }
+
+    body.dark nav.navbar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .post {
+      background: #1f1f1f;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>My Pro Blog</h1>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </nav>
+    <input type="text" id="searchBar" placeholder="Search posts..." />
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="themeSwitch" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="slider-container">
+      <div class="slides" id="slides">
+        <div class="slide" style="background-image: url('blog/pexels-senuscape-728360-1658967.jpg');"></div>
+        <div class="slide" style="background-image: url('blog/gettyimages-1755483626-612x612.jpg');"></div>
+        <div class="slide" style="background-image: url('blog/gettyimages-2197567781-612x612.jpg');"></div>
+      </div>
+      <button class="btn prev" onclick="prevSlide()">&lt;</button>
+      <button class="btn next" onclick="nextSlide()">&gt;</button>
+    </div>
+
+    <div class="content-right">
+      <h2>About My Pro Blog</h2>
+      <p>
+        My Pro Blog is a modern, interactive blog website with smooth sliders,
+        photo galleries, secure login/signup forms, like buttons for posts, user
+        comments, an author profile, and a contact form.
+      </p>
+    </div>
+  </div>
+
+  <section class="posts">
+    <article class="post" data-title="Post 1">
+      <h2>Post 1</h2>
+      <img src="blog/pexels-senuscape-728360-1658967.jpg" alt="Post 1 Image" class="post-image" />
+      <p>This is the summary of post 1...</p>
+      <button class="like-btn" onclick="likePost(this)">Like</button>
+      <span class="likeCount">0</span>
+      <div class="comment-section">
+        <input type="text" placeholder="Add a comment..." />
+        <button onclick="addComment(this)">Comment</button>
+        <ul class="comment-list"></ul>
+      </div>
+    </article>
+
+    <article class="post" data-title="Post 2">
+      <h2>Post 2</h2>
+      <img src="blog/gettyimages-1755483626-612x612.jpg" alt="Post 2 Image" class="post-image" />
+      <p>This is the summary of post 2...</p>
+      <button class="like-btn" onclick="likePost(this)">Like</button>
+      <span class="likeCount">0</span>
+      <div class="comment-section">
+        <input type="text" placeholder="Add a comment..." />
+        <button onclick="addComment(this)">Comment</button>
+        <ul class="comment-list"></ul>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Pro Blog</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeSwitch');
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark', toggle.checked);
+    });
+
+    const slides = document.getElementById('slides');
+    let index = 0;
+    function showSlide(i) {
+      slides.style.transform = `translateX(-${i * 600}px)`;
+    }
+    function nextSlide() {
+      index = (index + 1) % 3;
+      showSlide(index);
+    }
+    function prevSlide() {
+      index = (index - 1 + 3) % 3;
+      showSlide(index);
+    }
+    setInterval(nextSlide, 5000);
+
+    function likePost(button) {
+      const likeCountSpan = button.nextElementSibling;
+      let count = parseInt(likeCountSpan.textContent, 10);
+      likeCountSpan.textContent = ++count;
+      button.disabled = true;
+      button.style.backgroundColor = '#0056b3';
+    }
+
+    function addComment(button) {
+      const commentSection = button.parentElement;
+      const input = commentSection.querySelector('input[type="text"]');
+      const commentList = commentSection.querySelector('.comment-list');
+      const commentText = input.value.trim();
+      if (commentText) {
+        const li = document.createElement('li');
+        li.textContent = commentText;
+        commentList.appendChild(li);
+        input.value = '';
+      }
+    }
+  </script>
+</body>
+</html>
