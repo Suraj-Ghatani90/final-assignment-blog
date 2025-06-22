@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About My Pro Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* RESET & BASE STYLES */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #f2f3f7, #e8ebf0);
+      color: #333;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    /* DARK MODE TOGGLE */
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #333;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    /* ABOUT SECTION */
+    .about-container {
+      padding: 60px 10%;
+      text-align: center;
+    }
+
+    .about-container h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .profile-section img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-section p {
+      max-width: 600px;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    /* CONTACT FORM */
+    .contact-form {
+      padding: 60px 10%;
+      text-align: center;
+    }
+
+    .contact-form h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .contact-form form {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      background: #fff;
+      transition: border 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #777;
+      outline: none;
+    }
+
+    .contact-form button {
+      padding: 12px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact-form button:hover {
+      background-color: #111;
+    }
+
+    /* SCROLL ANIMATION */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* DARK MODE */
+    body.dark {
+      background: #121212;
+      color: #eee;
+    }
+
+    body.dark header,
+    body.dark .about-container,
+    body.dark .contact-form {
+      background-color: #1f1f1f;
+      color: #f1f1f1;
+    }
+
+    body.dark nav a {
+      color: #ccc;
+    }
+
+    body.dark nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark input,
+    body.dark textarea {
+      background-color: #2a2a2a;
+      color: #eee;
+      border: 1px solid #444;
+    }
+
+    body.dark button {
+      background-color: #eee;
+      color: #111;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .profile-section {
+        flex-direction: column;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>About My Pro Blog</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </nav>
+
+    <!-- 🌙 Dark Mode Toggle -->
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="themeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- 👤 About Section -->
+  <section class="about-container fade-in">
+    <h2>Our Story</h2>
+    <div class="profile-section">
+      <img src="blog/gettyimages-1755483626-612x612.jpg" alt="Author Profile">
+      <p>This blog shares stories, photos, and experiences to inspire and connect people around the world.</p>
+    </div>
+  </section>
+
+  <!-- ✉️ Contact Section -->
+  <section class="contact-form fade-in">
+    <h2>Contact Us</h2>
+    <form onsubmit="alert('Thank you for your message!'); return false;">
+      <input type="text" placeholder="Your Name" required><br>
+      <input type="email" placeholder="Your Email" required><br>
+      <textarea placeholder="Your Message" rows="5" required></textarea><br>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <script>
+    // 🌙 Dark Mode Toggle Logic
+    const toggle = document.getElementById('themeSwitch');
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark', toggle.checked);
+    });
+
+    // 🧪 Scroll Animation Logic
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
