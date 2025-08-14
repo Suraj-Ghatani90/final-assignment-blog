@@ -170,6 +170,14 @@
       outline: none;
     }
 
+    .error-message {
+      color: #ff6b6b;
+      font-size: 13px;
+      text-align: left;
+      margin-top: 5px;
+      display: none;
+    }
+
     .signup-form button {
       width: 100%;
       padding: 12px;
@@ -265,7 +273,7 @@
       <li><a href="about.html">About</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="login.html">Login</a></li>
-      <li><a href="signup.html">Signup</a></li>
+      <li><a href="signup.html" class="active">Signup</a></li>
     </ul>
     <input type="text" placeholder="Search posts...">
   </header>
@@ -280,7 +288,7 @@
 
   <!-- Signup Form -->
   <div class="signup-container">
-    <form class="signup-form">
+    <form class="signup-form" id="signupForm">
       <h2>Signup</h2>
 
       <label>Full Name</label>
@@ -290,10 +298,11 @@
       <input type="email" required>
 
       <label>Password</label>
-      <input type="password" required>
+      <input type="password" id="password" required>
 
       <label>Confirm Password</label>
-      <input type="password" required>
+      <input type="password" id="confirmPassword" required>
+      <div class="error-message" id="errorMessage">Passwords do not match!</div>
 
       <button type="submit">Sign Up</button>
 
@@ -305,6 +314,20 @@
     const toggle = document.getElementById('themeSwitch');
     toggle.addEventListener('change', () => {
       document.body.classList.toggle('dark', toggle.checked);
+    });
+
+    // Password match check
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      const password = document.getElementById('password').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (password !== confirmPassword) {
+        e.preventDefault(); // Stop form submission
+        errorMessage.style.display = 'block';
+      } else {
+        errorMessage.style.display = 'none';
+      }
     });
   </script>
 
